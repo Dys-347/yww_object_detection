@@ -1,2 +1,6 @@
 import { defineConfig } from "vite";
-export default defineConfig({base:"/yww_object_detection/"});
+import { resolve } from "node:path";
+export default defineConfig({
+  base: "/yww_object_detection/",
+  build: { rollupOptions: { input: { main: resolve(__dirname, "index.html"), papers: resolve(__dirname, "papers.html") } } }
+});
