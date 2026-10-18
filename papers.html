@@ -13,9 +13,9 @@ h3{font-size:18px;margin:28px 0 12px;border-left:3px solid var(--accent);padding
 @media(max-width:850px){.layout{grid-template-columns:1fr}.sidebar{position:static}.paper-list{grid-template-columns:repeat(2,minmax(0,1fr))}.sidebar .paper-item{padding:9px}.shell{padding:14px}.pane{padding:15px}}
 @media(max-width:480px){.paper-list{grid-template-columns:1fr}.stats{gap:8px}.stat{min-width:130px;flex:1}.title-row{display:block}}
 </style></head><body>
-<header><a class="crumb" href="./">← 返回 DETR 创新组合工作台</a><div class="eyebrow">RESEARCH READING LOG · FULL-PAPER ANALYSIS</div><h1>RT-DETR 改进论文：逐篇技术拆解</h1><p>先看完整应用论文，再拆解“作者真正设计的结构 / 从已有工作迁移的模块 / 实验证据 / 方法缺陷 / 可以迁移到螺栓缺失检测的研究问题”。这里不把模块来源论文冒充 RT-DETR 应用论文。2026-10 新增 25 篇 2026 年 RT-DETR 轻量化论文的调研级收录（核心路线、实验结果、原文链接），深拆条目与调研级条目在列表中有不同标记。</p></header>
-<main class="shell"><section class="pane" style="border-color:#206a62;margin-bottom:18px;background:#102924"><div style="color:#00c9a7;font-size:12px;letter-spacing:1px;font-weight:700">先看这一篇 · 已写入静态 HTML，不依赖论文选择器</div><h2 style="margin:9px 0">WMC-RTDETR 完整技术拆解示例</h2><p>包含三个模块的原创性归属、原文 Table 3 六组消融数字、四项研究质疑，以及面向螺栓缺失检测的迁移建议。</p><p><a href="./wmc-report.html" style="display:inline-block;padding:10px 15px;border-radius:8px;background:#00c9a7;color:#041015;font-weight:700">直接阅读完整拆解报告 →</a></p></section><div class="stats"><div class="stat"><b>31</b><small>收录论文（23 深拆 · 6 调研级 · 2 待拆）</small></div><div class="stat"><b>22</b><small>已核对方法与消融</small></div><div class="stat"><b>7</b><small>2026 调研级（未读全文）</small></div><div class="stat"><b>0</b><small>已独立复现实验</small></div></div>
-<div class="layout"><aside class="sidebar"><label class="label" for="paperselect">当前查看论文（31 篇：23 深拆 · 2 待拆 · 6 调研级）</label><select id="paperselect" class="picker"></select><div id="paperlist" class="paper-list"></div><details class="origin"><summary>基础模块出处（单独管理）</summary><p>RT-DETR、MobileNetV3、EfficientDet 等是基础技术论文，不计入上面的应用改进论文。原始模块需要在逐项引用链中核对。</p></details></aside>
+<header><a class="crumb" href="./">← 返回 DETR 创新组合工作台</a><div class="eyebrow">RESEARCH READING LOG · FULL-PAPER ANALYSIS</div><h1>RT-DETR 改进论文：逐篇技术拆解</h1><p>先看完整应用论文，再拆解“作者真正设计的结构 / 从已有工作迁移的模块 / 实验证据 / 方法缺陷 / 可以迁移到螺栓缺失检测的研究问题”。这里不把模块来源论文冒充 RT-DETR 应用论文。2026-10 新增 25 篇 2026 年 RT-DETR 轻量化论文、2026-10 补充 15 篇（2026 年 5 篇、2025 年 10 篇）的调研级收录（核心路线、实验结果、原文链接），深拆条目与调研级条目在列表中有不同标记。</p></header>
+<main class="shell"><section class="pane" style="border-color:#206a62;margin-bottom:18px;background:#102924"><div style="color:#00c9a7;font-size:12px;letter-spacing:1px;font-weight:700">先看这一篇 · 已写入静态 HTML，不依赖论文选择器</div><h2 style="margin:9px 0">WMC-RTDETR 完整技术拆解示例</h2><p>包含三个模块的原创性归属、原文 Table 3 六组消融数字、四项研究质疑，以及面向螺栓缺失检测的迁移建议。</p><p><a href="./wmc-report.html" style="display:inline-block;padding:10px 15px;border-radius:8px;background:#00c9a7;color:#041015;font-weight:700">直接阅读完整拆解报告 →</a></p></section><div class="stats"><div class="stat"><b>31</b><small>收录论文（26 深拆 · 3 调研级 · 2 待拆）</small></div><div class="stat"><b>22</b><small>已核对方法与消融</small></div><div class="stat"><b>7</b><small>2023 调研级（未读全文）</small></div><div class="stat"><b>0</b><small>已独立复现实验</small></div></div>
+<div class="layout"><aside class="sidebar"><label class="label" for="paperselect">当前查看论文（45 篇：26 深拆 · 2 待拆 · 17 调研级）</label><select id="paperselect" class="picker"></select><div id="paperlist" class="paper-list"></div><details class="origin"><summary>基础模块出处（单独管理）</summary><p>RT-DETR、MobileNetV3、EfficientDet 等是基础技术论文，不计入上面的应用改进论文。原始模块需要在逐项引用链中核对。</p></details></aside>
 <article class="pane" id="analysis" aria-live="polite"></article></div></main>
 <footer>分析状态严格区分原文核验、技术判断、代码复核和独立实验。表格数值仅来自相应论文、不可跨数据集直接比较。</footer>
 <script>
@@ -1660,26 +1660,147 @@ const papers=[
   ]
  },
  {
-  "id": "sdd",
-  "short": "SDD-RT-DETR",
-  "year": 2026,
-  "venue": "Sustainability",
-  "type": "轻量化 · PCB 缺陷",
-  "kind": "survey",
-  "title": "SDD-RT-DETR: A Lightweight and Efficient Printed Circuit Board Surface Defect Detection Method Based on an Improved RT-DETR Toward Sustainable Manufacturing",
-  "authors": "江西科技大学（通讯邮箱 6120190561@mail.jxust.edu.cn，姓名未提取）",
-  "url": "https://www.mdpi.com/2071-1050/18/5/2518",
-  "code": "",
-  "routes": [
-   "Backbone 替换",
-   "特征金字塔优化",
-   "IoU 损失"
+ "id": "sdd",
+ "problem": "PCB表面缺陷检测要在复杂工业环境下同时保证精度与实时性；6类缺陷（missing hole漏孔、mouse bite鼠咬、open circuit开路、short circuit短路、spur毛刺、spurious copper余铜）；原始训练样本仅1386张易过拟合；GIoU在预测框完全包住真值框时退化失效。",
+ "baseline": "RT-DETR-r18。北大智能机器人开放实验室PCB数据集（1386图/2953实例，6类）；原始图级别7:2:1划分，增强只作用于训练集（最终3403图：2382训/680验/341测，均为原始测试图）；SGD lr=0.001、batch 4、200 epochs、RTX 2080 Ti、PyTorch 2.0.1；对比SSD/Faster-RCNN/YOLOv5s/n/v8s/n/v10s/n/v11n/MobileNetV4/StarNet，全部从零训练、无预训练权重。",
+ "insight": "三处改动全部是已有方法的迁移集成：Faster-Block（FasterNet的PConv r=1/4+PWConv倒残差结构，替换ResNet18中的模块）；HS-FPN（High-level Screening FPN：通道注意力特征选择＋SFF高层语义引导低层融合，替换CCFM）；Wise-Focaler-MPDIoU（MPDIoU角点距离＋IoU重叠项＋Focaler-IoU难样本加权三项等权相加，无新增超参）。另有离线数据增强（水平翻转/对比度/中心裁剪/中值滤波去噪，约1:1.5）。",
+ "modules": [
+  {
+   "slot": "Backbone",
+   "name": "Faster-Block",
+   "kind": "已有方法迁移＋结构集成",
+   "origin": "FasterNet PConv（r=1/4）+ PWConv [23,24]",
+   "mechanism": "1/4通道做3×3卷积、其余通道直连；后接PWConv调通道数＋BN（推理可融合）；倒残差＋shortcut。",
+   "judgment": "单用mAP50 93.5→94.1（+0.6pp），FPS 88.1→92.5，GFLOPs 58.6→49.5；降本有效。"
+  },
+  {
+   "slot": "Neck",
+   "name": "HS-FPN",
+   "kind": "已有方法迁移＋结构集成",
+   "origin": "HS-FPN [26-28]",
+   "mechanism": "特征选择：max+avg池化→sigmoid通道注意力；SFF：高层转置卷积上采样＋双线性对齐→CA权重过滤低层→fout＝flow×CA(fatt)＋fatt。",
+   "judgment": "单用mAP50 94.5（+1.0pp）、mAP50-95 50.6；FPS微降至87.8。"
+  },
+  {
+   "slot": "损失函数",
+   "name": "Wise-Focaler-MPDIoU",
+   "kind": "整合已有机制的设计",
+   "origin": "MPDIoU [32] ＋ Focaler-IoU [31] ＋ Wise-IoU动态加权思想 [30]",
+   "mechanism": "LFocaler-MPDIoU ＝ LMPDIoU ＋ IoU − IoUFocaler；几何对齐、重叠约束、难样本加权三项等权。",
+   "judgment": "单用mAP50 94.5（+1.0pp）、mAP50-95 50.4；四种损失横向对比中最优。"
+  }
+ ],
+ "tableTitle": "Table 3（消融；baseline RT-DETR-r18）",
+ "columns": [
+  "配置",
+  "P",
+  "R",
+  "mAP50",
+  "mAP50-95",
+  "GFLOPs",
+  "Params",
+  "FPS"
+ ],
+ "rows": [
+  [
+   "baseline",
+   "94.7",
+   "92.5",
+   "93.5",
+   "49.9",
+   "58.6",
+   "20.18M",
+   "88.1"
   ],
-  "core": "Faster-Block backbone（自适应感受野）；HS-FPN（层次双向特征金字塔 + 通道注意力特征选择）替换原 neck；Wise-Focaler-MPDIoU 损失。",
-  "result": "3403 图 PCB 数据集：mAP +2.3%，推理速度 +3.6%；参数 -5.04M，FLOPs -12.7G。",
-  "baseline": "RT-DETR",
-  "note": "（2026-10-17 深拆时未能读到论文全文，暂保持调研级；以下为摘要与索引页信息，未经全文核验。）收稿于 2026-01-10。"
- },
+  [
+   "A Faster-Block",
+   "95.6",
+   "92.3",
+   "94.1",
+   "49.6",
+   "49.5",
+   "16.80M",
+   "92.5"
+  ],
+  [
+   "B HS-FPN",
+   "96.1",
+   "92.7",
+   "94.5",
+   "50.6",
+   "53.3",
+   "18.13M",
+   "87.8"
+  ],
+  [
+   "C 损失",
+   "96.6",
+   "93.3",
+   "94.5",
+   "50.4",
+   "57.0",
+   "20.09M",
+   "88.3"
+  ],
+  [
+   "A+B",
+   "95.2",
+   "93.2",
+   "95.3",
+   "51.3",
+   "45.9",
+   "15.04M",
+   "91.8"
+  ],
+  [
+   "A+C",
+   "96.0",
+   "92.1",
+   "94.0",
+   "50.2",
+   "49.5",
+   "17.01M",
+   "92.1"
+  ],
+  [
+   "B+C",
+   "96.7",
+   "93.7",
+   "94.8",
+   "50.7",
+   "53.3",
+   "18.23M",
+   "88.0"
+  ],
+  [
+   "SDD(A+B+C)",
+   "96.9",
+   "94.5",
+   "95.8",
+   "51.6",
+   "45.9",
+   "15.14M",
+   "91.3"
+  ]
+ ],
+ "conclusion": "最终vs baseline：P+2.2/R+2.0/mAP50+2.3/mAP50-95+1.7pp；参数−5.04M（−25.1%），FLOPs 58.6→45.9（−12.7G），FPS 88.1→91.3（+3.6%）。missing hole单类最优（P99.1/R98.7/mAP50 98.2）。MIXED PCB跨数据集泛化mAP50 91.6（+1.1pp vs baseline）。",
+ "warnings": [
+  "全部对比模型从零训练、无预训练——RT-DETR-r18官方常用预训练backbone，baseline可能被系统性低估",
+  "测试集仅341张原始图；数据集实验室采集，作者自承泛化受限",
+  "FPS在RTX 2080 Ti桌面端测得，无边缘端验证（作者列为limitation）",
+  "极小/低对比缺陷仍漏检（failure case：被铜走线淹没的mouse bite）",
+  "注意力四指标（Attention-IoU/FAR/BSI/ECS）为自定指标，无外部可比性",
+  "消融中A+C组合mAP50 94.0低于单用C的94.5——模块间存在轻微负交互，作者未讨论",
+  "数据集未公开（available on request）"
+ ],
+ "writing": "“Faster-Block(PConv)＋HS-FPN＋改进IoU损失”的三段式轻量化范式可整体借鉴；missing hole与螺栓缺失同属“缺失类”缺陷，该类mAP50达98.2说明RT-DETR对此类几何规整目标极友好；离线增强只作用训练集、测试集保持原始的做法值得学（防指标虚高）；不能复制其“全部从零训练”的对比设定——写论文时baseline必须说明是否用预训练，否则会被质疑。",
+ "sources": [
+  "Sustainability 2026, 18, 2518 全文 §2.3–2.5、§3–§5、Table 2–6",
+  "https://mdpi-res.com/d_attachment/sustainability/sustainability-18-02518/article_deploy/sustainability-18-02518.pdf?version=1772636713"
+ ],
+ "status": "全文已读（26页）；方法结构、消融表、对比表、跨数据集泛化已核对",
+ "deep": true
+},
  {
   "id": "fsa",
   "short": "FSA-DETR-P",
@@ -1802,27 +1923,159 @@ const papers=[
   ]
  },
  {
-  "id": "watermelon",
-  "short": "RT-DETR-Watermelon",
-  "year": 2026,
-  "venue": "Horticulturae",
-  "type": "轻量化 · 西瓜检测",
-  "kind": "survey",
-  "title": "Target Detection of Trellised Watermelons in Complex Agricultural Scenes Based on Improved RT-DETR",
-  "authors": "Weichen Yan, Huixing Qu, Shaowei Wang, Huawei Yang, Yongbing Hao, Guohai Zhang",
-  "url": "https://www.mdpi.com/2311-7524/12/3/333",
-  "code": "",
-  "routes": [
-   "小目标检测层",
-   "Neck 优化",
-   "通道缩减",
-   "IoU 损失"
+ "id": "watermelon",
+ "problem": "架式西瓜复杂农田场景：果实被叶蔓严重遮挡、尺度变化大、小目标占比高；要在保持轻量的同时提升小目标与遮挡鲁棒性，供采摘机器人上游感知用。",
+ "baseline": "RT-DETR（ResNet-18）。自建西瓜数据集（山东淄博生态农场，REDMI K80手机拍摄，1368图→增强8208图，7:2:1；红蜜/麒麟2品种）；640×640、batch 16、200 epochs、lr 0.001、AdamW、RTX 3050 laptop；对比YOLOv8s/n、SSD、Faster R-CNN。",
+ "insight": "五处改动：backbone嵌入context-guided(CG)模块（局部3×3＋空洞卷积上下文＋全局池化通道加权，抗遮挡）；新增P2检测层（160×160）；neck引入TFE（三尺度对齐到中尺度后concat）＋SSFF（尺度序列3D卷积融合）；GIoU→MPDIoU；neck/head通道256→128。TFE/SSFF/CG/P2均为已有方法迁移，创新在组合；真正的轻量化来自通道减半。",
+ "modules": [
+  {
+   "slot": "Backbone",
+   "name": "CG模块",
+   "kind": "已有方法迁移＋结构集成",
+   "origin": "context-guided [24]",
+   "mechanism": "局部3×3分支＋空洞卷积上下文分支＋联合融合＋全局平均池化FC通道加权。",
+   "judgment": "单用P/R/mAP50 +2.1/+0.5/+0.9pp、mAP50-95 +3.7pp；但FLOPs 56.9→78.1（+37%）——并不“轻量”。"
+  },
+  {
+   "slot": "Neck",
+   "name": "TFE",
+   "kind": "已有方法迁移＋结构集成",
+   "origin": "[25]",
+   "mechanism": "大/中/小三尺度特征统一到中尺度（大尺度avg+max池化下采样，小尺度最近邻上采样），归一化后通道concat。",
+   "judgment": "与SSFF合用mAP50-95 +4.4pp，但GFLOPs 56.9→61.4。"
+  },
+  {
+   "slot": "Neck",
+   "name": "SSFF",
+   "kind": "已有方法迁移＋结构集成",
+   "origin": "ASF-YOLO [26]",
+   "mechanism": "多阶段特征1×1对齐通道→上采样到最高分辨率→unsqueeze堆叠成尺度序列→3D卷积＋BN＋LeakyReLU融合。",
+   "judgment": "小目标子集mAP50-95 60.9→63.9（+3.0pp）；与psr论文的SSFF同源。"
+  },
+  {
+   "slot": "Head",
+   "name": "P2检测层",
+   "kind": "已有方法迁移＋结构集成",
+   "origin": "[12]",
+   "mechanism": "新增160×160高分辨率检测层（原P3/P4/P5为80/40/20）。",
+   "judgment": "单用mAP50-95 +3.8pp；小目标子集召回83.0→84.5%。"
+  },
+  {
+   "slot": "通道",
+   "name": "neck/head 256→128",
+   "kind": "论文提出的结构设计",
+   "origin": "§2.2.6自设计",
+   "mechanism": "backbone通道不变，仅neck/head通道减半。",
+   "judgment": "真正的轻量化来源：参数−53.5%、FLOPs−23.5%；单用精度微降。"
+  },
+  {
+   "slot": "损失函数",
+   "name": "MPDIoU",
+   "kind": "已有方法迁移＋结构集成",
+   "origin": "[27]",
+   "mechanism": "角点距离归一化惩罚项；包容场景下GIoU退化时仍给出有效梯度。",
+   "judgment": "四种损失中P/R/mAP50最优（93.7/86.5/93.1），收敛更快、终损更低。"
+  }
+ ],
+ "tableTitle": "Table 1（消融）",
+ "columns": [
+  "配置",
+  "P",
+  "R",
+  "mAP50",
+  "mAP50-95",
+  "GFLOPs",
+  "Params",
+  "模型大小"
+ ],
+ "rows": [
+  [
+   "baseline",
+   "92.8",
+   "86.4",
+   "92.9",
+   "70.4",
+   "56.9",
+   "19.8M",
+   "40.4MB"
   ],
-  "core": "ResNet-18 + CG（context-guided）模块；P2 小目标检测层；TFE + SSFF neck；MPDIoU 损失；通道数缩减。",
-  "result": "precision / recall / mAP@0.5 分别 +0.4 / +1.8 / +1.0 个百分点；参数 19.8M→9.2M（-53.5%），FLOPs -23.5%，模型尺寸 -53.2%；21.2 FPS。",
-  "baseline": "RT-DETR、YOLOv8n/s、SSD、Faster R-CNN",
-  "note": "（2026-10-17 深拆时未能读到论文全文，暂保持调研级；以下为摘要与索引页信息，未经全文核验。）"
- },
+  [
+   "+SSFF+TFE",
+   "94.4",
+   "85.7",
+   "93.0",
+   "74.8",
+   "61.4",
+   "20.1M",
+   "41MB"
+  ],
+  [
+   "+CG",
+   "93.8",
+   "86.5",
+   "93.0",
+   "74.2",
+   "78.1",
+   "18.5M",
+   "38.1MB"
+  ],
+  [
+   "+P2",
+   "92.3",
+   "88.0",
+   "92.8",
+   "73.5",
+   "40.5",
+   "14.6M",
+   "29.6MB"
+  ],
+  [
+   "+MPDIoU",
+   "94.9",
+   "86.9",
+   "93.8",
+   "74.1",
+   "47.6",
+   "16.5M",
+   "33.8MB"
+  ],
+  [
+   "+通道减半",
+   "93.7",
+   "86.5",
+   "93.1",
+   "73.8",
+   "56.9",
+   "19.8M",
+   "40.4MB"
+  ],
+  [
+   "最终",
+   "93.2",
+   "88.2",
+   "93.9",
+   "73.8",
+   "43.5",
+   "9.2M",
+   "18.9MB"
+  ]
+ ],
+ "conclusion": "最终vs baseline：P+0.4/R+1.8/mAP50+1.0/mAP50-95+3.5pp；参数−53.5%（19.8→9.2M），FLOPs−23.5%（56.9→43.5），模型−53.2%。小目标子集mAP50-95 60.9→63.9；遮挡子集74.0（+4.6pp）；低光子集74.4（+6.5pp）。5次独立训练mAP50 93.88±0.15，p<0.05显著。",
+ "warnings": [
+  "消融显示CG/SSFF+TFE单用都增加FLOPs（+37%/+8%）——论文标题“轻量”的实质是通道减半，模块本身并不轻",
+  "数据集单一农场/2品种/1款手机，作者自承泛化存疑；数据on request",
+  "FPS 21.2（RTX 3050 laptop）比baseline 24.8更慢；无真实边缘端实测（作者列为limitation）",
+  "mAP50只+1.0pp，作者以“农业任务提升本就渐进”辩护——增量有限",
+  "极端遮挡（>50%）、圆形背景误检、640输入下极小目标仍失效"
+ ],
+ "writing": "“精度模块（CG/SSFF/TFE/P2）＋通道减半”的先加后减是典型范式：先堆模块涨点，再用通道压缩买回轻量化；P2小目标层（mAP50-95 +3.8pp）对螺栓小目标检测有直接参考价值；SSFF与psr论文的SSFF同源，可对比着看；写论文时消融要如实报告“单模块增FLOPs”的trade-off，不能只报最终版。",
+ "sources": [
+  "Horticulturae 2026, 12, 333 全文 §2–§5、Table 1–8",
+  "https://mdpi-res.com/d_attachment/horticulturae/horticulturae-12-00333/article_deploy/horticulturae-12-00333.pdf"
+ ],
+ "status": "全文已读（22页）；方法结构、消融表、小目标/遮挡/低光子集评估已核对",
+ "deep": true
+},
  {
   "id": "psr",
   "short": "PSR-DETR",
@@ -2181,25 +2434,86 @@ const papers=[
   ]
  },
  {
-  "id": "debris",
-  "short": "泥石流 RF-DETR",
-  "year": 2026,
-  "venue": "Electronics",
-  "type": "轻量化 · 泥石流检测",
-  "kind": "survey",
-  "title": "A Lightweight Real-Time Debris Flow Detection Method Based on RF-DETR",
-  "authors": "作者全名未在可访问页面提取到（Electronics 2026, 15(14), 2982）",
-  "url": "https://www.mdpi.com/2079-9292/15/14/2982",
-  "code": "",
-  "routes": [
-   "NAS 架构",
-   "IoU 损失"
+ "id": "debris",
+ "problem": "泥石流灾害监测需要非接触、实时、低误报；传统接触式传感器成本高、易损毁、难大范围部署；RF-DETR精度高但参数量大，难上边缘端。",
+ "baseline": "RF-DETR-Small（DINOv2 backbone）。自建泥石流数据集（B站/TikTok/YouTube视频抽帧＋实地采集，增强后8534图，分层7:1:2；标注泥石流/泥石/水石/山洪/石头/泥块/负样本）；150 epochs、lr 1e-4、batch 16、AdamW、AMP、无预训练权重、RTX 4060 Ti；对比YOLOv8n/s、YOLOv9s、YOLO11s/m、YOLO-NAS-S、EfficientDet-D0、RT-DETRv2-S。",
+ "insight": "三处改动：backbone DINOv2→EfficientFormerV2（4D/3D维度一致的MetaBlock设计＋卷积stem替代大核patch embedding）；多尺度投影层简化（去掉上下采样/特征融合/C2f，只留1×1 conv＋BN＋ReLU投影到256维）；GIoU→EIoU。三者均为已有方法迁移，创新在组合。",
+ "modules": [
+  {
+   "slot": "Backbone",
+   "name": "EfficientFormerV2",
+   "kind": "已有方法迁移＋结构集成",
+   "origin": "EfficientFormerV2 [19,20]",
+   "mechanism": "MB4D卷积风＋MB3D注意力，避免ViT式4D/3D频繁切换；卷积stem替代大核patch embedding，利好边缘编译。",
+   "judgment": "单换backbone（不简化投影）GFLOPs反暴涨至32.6（+152.7%）——通道不一致导致投影层开销；必须配合投影简化。"
+  },
+  {
+   "slot": "投影层",
+   "name": "投影层简化",
+   "kind": "论文提出的结构设计",
+   "origin": "§3.2自设计",
+   "mechanism": "EfficientFormerV2四阶段特征→1×1 conv＋BN＋ReLU投影到256维，去掉原多尺度采样/融合/C2f。",
+   "judgment": "参数−54.2%、GFLOPs−36.4%的关键；recall仅−5.2pp。"
+  },
+  {
+   "slot": "损失函数",
+   "name": "EIoU",
+   "kind": "已有方法迁移＋结构集成",
+   "origin": "EIoU [26]（DIoU/CIoU演进）",
+   "mechanism": "LIoU＋Ldis＋Lasp：宽高差直接最小化，保留CIoU特性。",
+   "judgment": "五种IoU损失中AP50 92.8/AP50-95 76.8最优；对延迟/参数几乎无影响。"
+  }
+ ],
+ "tableTitle": "Table 9（消融；注意输入仅224×224）",
+ "columns": [
+  "配置",
+  "P",
+  "R",
+  "AP50",
+  "AP50-95",
+  "Latency",
+  "Params",
+  "GFLOPs"
+ ],
+ "rows": [
+  [
+   "RF-DETR-Small GIoU",
+   "91.3",
+   "90.3",
+   "91.5",
+   "75.5",
+   "31.4ms",
+   "32.1M",
+   "12.9"
   ],
-  "core": "基于 RF-DETR（ICLR 2026 的 NAS 实时检测 transformer）的轻量化；EIoU 损失加速收敛。",
-  "result": "泥石流数据集：参数 -54.2%，计算量 -36.4%，精度/时延在可接受范围内。",
-  "baseline": "RF-DETR",
-  "note": "（2026-10-17 深拆时未能读到论文全文，暂保持调研级；以下为摘要与索引页信息，未经全文核验。）收稿 2026-05-07，发表 2026-07-08。"
- },
+  [
+   "EfficientFormerV2＋简化投影＋EIoU",
+   "95.2",
+   "85.1",
+   "88.9",
+   "72.6",
+   "36.4ms",
+   "14.7M",
+   "8.21"
+  ]
+ ],
+ "conclusion": "参数−54.2%（32.1→14.7M），GFLOPs−36.4%（12.9→8.21）；代价：recall −5.2pp（90.3→85.1）、AP50 −2.6pp、AP50-95 −2.9pp、延迟+15.9%（31.4→36.4ms）。Jetson AGX Orin实测：23.1→14.6 FPS（−36.8%），延迟43.3→68.7ms。",
+ "warnings": [
+  "全部指标在224×224输入下测得——远小于常规640，GFLOPs/延迟数字不可与其他论文直接对比",
+  "泥石流检测最关键的recall下降5.2pp，作者称acceptable但预警场景漏检代价极高，trade-off存疑",
+  "延迟反升15.9%、Jetson上FPS降36.8%——“轻量化”主要轻在参数/FLOPs，速度并未变快",
+  "数据集自建自采（视频网站抽帧＋人工筛），质量与标注一致性存疑；available on request",
+  "无预训练权重训练150 epochs，baseline可能欠训练",
+  "作者自承：夜间红外无能；DINOv2本是NAS最优架构，换backbone需重做架构设计"
+ ],
+ "writing": "“换轻量backbone必须同步简化其后的投影/融合层，否则FLOPs反增”是最有价值的教训（EfficientFormerV2单换+152.7% GFLOPs）；对螺栓检测的直接借鉴有限（场景差异大），但EIoU在小目标定位上的稳定性可考虑；写论文时若报224输入必须显式声明，否则有误导嫌疑。",
+ "sources": [
+  "Electronics 2026, 15, 2982 全文 §3–§6、Table 6–11",
+  "https://mdpi-res.com/d_attachment/electronics/electronics-15-02982/article_deploy/electronics-15-02982.pdf"
+ ],
+ "status": "全文已读（15页）；方法结构、消融表、Jetson边缘端实测已核对",
+ "deep": true
+},
  {
  "baseline": "RT-DETR-R18；北京大学智能机器人开放实验室开源 PCB 数据集（693 张、6 类缺陷：漏孔/鼠咬/开路/短路/杂铜/杂散，7:1:2 划分）；输入 640×640，RTX 3090，200 epoch。",
  "code": "",
@@ -2693,14 +3007,211 @@ const papers=[
   "baseline": "RT-DETR-r18；完整配置待复核。",
   "insight": "已登记原文，具体改进模块、作者贡献和消融数值尚未核对。",
   "status": "待深入拆解"
- }
+ },
+ {
+  "id": "lstrt-detr",
+  "short": "LSTRT-DETR",
+  "year": 2026,
+  "venue": "Lecture Notes in Electrical Engineering, vol. 1495 (ICMIC2025)",
+  "type": "轻量化 · SAR小目标",
+  "deep": false,
+  "title": "Lightweight Small Target Detection in SAR Images Based on Improved RT-DETR",
+  "url": "https://link.springer.com/chapter/10.1007/978-981-95-3312-1_59",
+  "problem": "SAR图像小目标检测中RT-DETR参数量大、复杂环境适应性差",
+  "baseline": "待核对。",
+  "insight": "新设计LACGBNet骨干（轻量加性卷积GLU）+STFFN小目标融合网（P2层SPD-Conv）+SDFM浅层融合模块，参数量降4.1M，P2层处理思路值得深拆",
+  "status": "待深入拆解"
+ },
+ {
+  "id": "rtdetr-dcea",
+  "short": "RT-DETR-DCEA",
+  "year": 2026,
+  "venue": "Plants 2026, 15, 2077",
+  "type": "轻量化 · 柑橘缺陷果",
+  "deep": false,
+  "title": "RT-DETR-DCEA: A Lightweight Citrus Defective Fruit Detection Algorithm for Complex Orchard Environments",
+  "url": "https://www.mdpi.com/2223-7747/15/13/2077/pdf",
+  "problem": "复杂果园环境下柑橘缺陷果检测需兼顾精度与轻量化",
+  "baseline": "待核对。",
+  "insight": "动态卷积+多尺度融合+AIFI-ASSA自适应稀疏自注意力（稀疏/稠密双分支），14.77M参数/81FPS，ASSA注意力机制新颖",
+  "status": "待深入拆解"
+ },
+ {
+  "id": "diamond-detr",
+  "short": "Diamond-DETR",
+  "year": 2026,
+  "venue": "Scientific Reports 2026, 16:10711",
+  "type": "轻量化 · 合成钻石质检",
+  "deep": false,
+  "title": "Diamond-DETR: an optimized RT-DETR algorithm for automated quality evaluation of synthetic diamonds",
+  "url": "https://www.nature.com/articles/s41598-026-44951-1.pdf",
+  "problem": "合成钻石自动质检需要轻量高精度的视觉感知前端",
+  "baseline": "待核对。",
+  "insight": "轻量多尺度特征提取模块+HSFPN编码器+DRBC3块，SciRep工业质检场景，HSFPN变体值得看",
+  "status": "待深入拆解"
+ },
+ {
+  "id": "idd-detr-rs",
+  "short": "IDD-DETR",
+  "year": 2026,
+  "venue": "Remote Sensing 2026, 18(3), 486",
+  "type": "轻量化 · 绝缘子多缺陷",
+  "deep": false,
+  "title": "IDD-DETR: Lightweight Multi-Defect Detection Model for Transmission Line Insulators Based on UAV Remote Sensing",
+  "url": "https://www.mdpi.com/2072-4292/18/3/486",
+  "problem": "无人机巡检绝缘子多缺陷检测：小目标、复杂背景、边缘部署难",
+  "baseline": "待核对。",
+  "insight": "电力场景直接相关，输电线路绝缘子多缺陷轻量化检测",
+  "status": "待深入拆解"
+ },
+ {
+  "id": "idd-detr-ffdn",
+  "short": "IDD-DETR-FFDN",
+  "year": 2025,
+  "venue": "Sensors 2025 (PMC12473871)",
+  "type": "轻量化 · 绝缘子闪络",
+  "deep": false,
+  "title": "IDD-DETR: Insulator Defect Detection Model and Low-Carbon Operation and Maintenance Application Based on Bidirectional Cross-Scale Fusion and Dynamic Histogram Attention",
+  "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC12473871/",
+  "problem": "特高压绝缘子小尺度缺陷难检、低对比度缺陷易被背景淹没",
+  "baseline": "待核对。",
+  "insight": "FFDN特征聚焦扩散网络替代PAFPN（双向跨尺度交互）+DHSA动态直方图自注意力增强低亮度区缺陷响应，mAP50 81.7%（+3.8pp），电力场景强相关",
+  "status": "待深入拆解"
+ },
+ {
+  "id": "buffet-detr",
+  "short": "Buffet-DETR",
+  "year": 2026,
+  "venue": "IJACSA 2026, 17(1)",
+  "type": "轻量化 · 自助餐场景",
+  "deep": false,
+  "title": "A Robust RT-DETR-Based Method for Complex Self-Service Buffet Scene Detection",
+  "url": "https://thesai.org/Publications/ViewPaper?Volume=17&Issue=1&Code=ijacsa&SerialNo=78",
+  "problem": "自助餐场景密集堆叠遮挡、强光反射、类别视觉相似下的鲁棒检测",
+  "baseline": "待核对。",
+  "insight": "参数量-42.6%/GFLOPs-42.3%/103FPS数据扎实，但模块（重参数化stem+动态多核细化+异构核FPN）较常规，调研级即可",
+  "status": "待深入拆解"
+ },
+ {
+  "id": "rtdetr-mbd",
+  "short": "RT-DETR-MBD",
+  "year": 2025,
+  "venue": "IEEE Access 2025, 13:183408-183418",
+  "type": "轻量化 · 输电线路巡检",
+  "deep": false,
+  "title": "An Improved Lightweight RT-DETR Algorithm for High-Voltage Transmission Line Inspection",
+  "url": "https://doaj.org/article/3213635cd3cc465691b2d3ab6d8abf41",
+  "problem": "无人机电力巡检多尺度设备目标、复杂背景干扰、边缘算力受限",
+  "baseline": "待核对。",
+  "insight": "国网邯郸供电公司作者，电力场景强相关；MobileNetV4重构骨干+BiFPN颈部优化+DBBS动态分支平衡结构+SE增强RepC3，参数降46%、推理+36%",
+  "status": "待深入拆解"
+ },
+ {
+  "id": "mso-detr",
+  "short": "MSO-DETR",
+  "year": 2025,
+  "venue": "Electronics 2025, 14, 2327",
+  "type": "轻量化 · 海上搜救小目标",
+  "deep": false,
+  "title": "MSO-DETR: A Lightweight Detection Transformer Model for Small Object Detection in Maritime Search and Rescue",
+  "url": "https://www.mdpi.com/2079-9292/14/12/2327/pdf",
+  "problem": "海事搜救无人机小目标检测：海面眩光、波浪干扰、机载资源受限",
+  "baseline": "待核对。",
+  "insight": "StarNet骨干+DHAIFI（DHSA动态直方图自注意力进AIFI）+STEFF/ASF尺度调谐融合，DHSA机制新颖且与IDD-DETR可对照",
+  "status": "待深入拆解"
+ },
+ {
+  "id": "eso-detr",
+  "short": "ESO-DETR",
+  "year": 2025,
+  "venue": "Drones 2025, 9, 143",
+  "type": "轻量化 · 无人机小目标",
+  "deep": false,
+  "title": "ESO-DETR: An Improved Real-Time Detection Transformer Model for Enhanced Small Object Detection in UAV Imagery",
+  "url": "https://mdpi-res.com/d_attachment/drones/drones-09-00143/article_deploy/drones-09-00143-v2.pdf?version=1739893803",
+  "problem": "无人机图像小目标检测的性能-效率-轻量化三角平衡",
+  "baseline": "待核对。",
+  "insight": "GSHA门控单头注意力骨干块+MMSA多尺度多头自注意力+ESO-FPN（大核+双域注意力）+ESVF损失，VisDrone mAP50+3.9pp、参数-25%",
+  "status": "待深入拆解"
+ },
+ {
+  "id": "cml-rtdetr",
+  "short": "CML-RTDETR",
+  "year": 2025,
+  "venue": "Electronics 2025, 14, 3051",
+  "type": "轻量化 · 麦穗检测计数",
+  "deep": false,
+  "title": "CML-RTDETR: A Lightweight Wheat Head Detection and Counting Algorithm Based on the Improved RT-DETR",
+  "url": "https://www.mdpi.com/2079-9292/14/15/3051/pdf",
+  "problem": "密集遮挡场景下麦穗小目标检测与计数",
+  "baseline": "待核对。",
+  "insight": "CSPDarknet+FM空频混合瓶颈+GHSDConv/CSPDWOK构建MFEP融合+CML_loss，更重要的是用了LAMP剪枝——剪枝方向的实例",
+  "status": "待深入拆解"
+ },
+ {
+  "id": "ggn-rtdetr",
+  "short": "GGN-RTDETR",
+  "year": 2025,
+  "venue": "PLoS ONE 2025, 20(3):e0317114",
+  "type": "轻量化 · 磨玻璃肺结节",
+  "deep": false,
+  "title": "Improvement of RT-DETR model for ground glass pulmonary nodule detection",
+  "url": "http://journals.plos.org/plosone/article?id=10.1371/journal.pone.0317114",
+  "problem": "磨玻璃肺结节小尺寸、边缘模糊、形态不规则，检测难度大",
+  "baseline": "待核对。",
+  "insight": "FCGE骨干块+HiLo-AIFI（降冗余计算）+DGAK模块替代Fusion，参数-5.2M、mAP50+2.1pp，HiLo注意力进AIFI值得看",
+  "status": "待深入拆解"
+ },
+ {
+  "id": "rtdetr-ffd",
+  "short": "RT-DETR-FFD",
+  "year": 2025,
+  "venue": "Electronics 2025, 14(14), 2789",
+  "type": "轻量化 · 织物缺陷",
+  "deep": false,
+  "title": "RT-DETR-FFD: A Knowledge Distillation-Enhanced Lightweight Model for Printed Fabric Defect Detection",
+  "url": "https://www.mdpi.com/2079-9292/14/14/2789",
+  "problem": "印花织物缺陷类型多、尺度变化大、高速实时检测",
+  "baseline": "待核对。",
+  "insight": "知识蒸馏方向实例！teacher-student框架+correlation-aware损失函数提升知识迁移+FCSM傅里叶谱分析+FuseFlow-Net，mAP50 82.1%",
+  "status": "待深入拆解"
+ },
+ {
+  "id": "eer-detr",
+  "short": "EER-DETR",
+  "year": 2025,
+  "venue": "Applied Sciences 2025, 15, 6217",
+  "type": "轻量化 · 光伏板缺陷",
+  "deep": false,
+  "title": "EER-DETR: An Improved Method for Detecting Defects on the Surface of Solar Panels Based on RT-DETR",
+  "url": "https://mdpi-res.com/d_attachment/applsci/applsci-15-06217/article_deploy/applsci-15-06217.pdf",
+  "problem": "太阳能电池板表面缺陷检测",
+  "baseline": "待核对。",
+  "insight": "mAP50仅+1.9pp、参数-9.7%、GFLOPs-14.6%，提升幅度有限，调研级即可",
+  "status": "待深入拆解"
+ },
+ {
+  "id": "ship-rtdetr",
+  "short": "Ship-RT-DETR",
+  "year": 2025,
+  "venue": "J. Mar. Sci. Eng. 2025, 13, 2205",
+  "type": "轻量化 · 船舶船牌",
+  "deep": false,
+  "title": "Ship-RT-DETR: An Improved Model for Ship Plate Detection and Identification",
+  "url": "https://mdpi-res.com/d_attachment/jmse/jmse-13-02205/article_deploy/jmse-13-02205-v2.pdf?version=1763648351",
+  "problem": "内河航道船舶船牌检测识别，多天气鲁棒性要求",
+  "baseline": "待核对。",
+  "insight": "CSP_PMSFA（PConv）骨干+AIFI_LPE可学习位置编码，应用型论文，雾天仍>90%精度，调研级",
+  "status": "待深入拆解"
+ },
+ 
 ];
 const select=document.getElementById("paperselect"),list=document.getElementById("paperlist"),view=document.getElementById("analysis");
 const esc=s=>String(s??"").replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
 papers.forEach(p=>{const o=document.createElement("option");o.value=p.id;o.textContent=p.year+" · "+p.short+" — "+p.venue;select.appendChild(o)});
 function block(k,v){return '<p><strong>'+esc(k)+'：</strong>'+esc(v)+'</p>'}
 function show(id){const p=papers.find(x=>x.id===id)||papers[0];select.value=p.id;
-list.innerHTML=papers.map(x=>'<button type="button" class="paper-item '+(x.id===p.id?'active':'')+'" data-id="'+x.id+'"><strong>'+esc(x.short)+'</strong><small>'+x.year+' · '+esc(x.venue)+'</small><span class="pill '+(x.deep?'good':(x.kind==='survey'?'':'warn'))+'">'+(x.deep?'方法与消融已核':(x.kind==='survey'?'2026 调研级':'待拆解'))+'</span></button>').join('');
+list.innerHTML=papers.map(x=>'<button type="button" class="paper-item '+(x.id===p.id?'active':'')+'" data-id="'+x.id+'"><strong>'+esc(x.short)+'</strong><small>'+x.year+' · '+esc(x.venue)+'</small><span class="pill '+(x.deep?'good':(x.kind==='survey'?'':'warn'))+'">'+(x.deep?'方法与消融已核':(x.kind==='survey'?'2023 调研级':'待拆解'))+'</span></button>').join('');
 const head='<div class="title-row"><div><span class="pill">'+p.year+'</span><span class="pill">'+esc(p.venue)+'</span><span class="pill '+(p.deep?'good':'warn')+'">'+esc(p.status)+'</span><h2>'+esc(p.title)+'</h2></div></div><p class="muted">'+esc(p.type)+'</p><div class="source"><a target="_blank" rel="noopener" href="'+p.url+'">原论文全文 ↗</a></div>';
 const intro='<div class="intro"><b>研究者拆解结论</b><p>'+esc(p.insight)+'</p></div>';
 if(p.kind==='survey'){const routes=(p.routes||[]).map(r=>'<span class="pill">'+esc(r)+'</span>').join('');const links='<a target="_blank" rel="noopener" href="'+p.url+'">原论文全文 ↗</a>'+(p.code?' &nbsp;<a target="_blank" rel="noopener" href="'+p.code+'">开源代码 ↗</a>':'');view.innerHTML='<div class="title-row"><div><span class="pill">'+p.year+'</span><span class="pill">'+esc(p.venue)+'</span><span class="pill">2026 轻量化调研级收录</span><h2>'+esc(p.title)+'</h2></div></div><p class="muted">'+esc(p.type)+'</p><p class="muted">作者：'+esc(p.authors)+'</p><div class="source">'+links+'</div><h3>轻量化技术路线</h3><p>'+routes+'</p>'+block("核心方法",p.core)+'<h3>实验结果（原文报告）</h3>'+block("报告指标",p.result)+block("对比基线",p.baseline)+(p.note?'<div class="warning">'+esc(p.note)+'</div>':'')+'<h3>收录说明</h3><div class="warning">调研级条目：数据来自论文摘要页 / 期刊全文索引（2026-10-17 读取），未做逐表深拆与代码复核，不能当作已完整拆解的研究案例。FPS / 时延因测试硬件不同，不可跨论文直接比较。</div>';return;}
